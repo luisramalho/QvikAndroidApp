@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">QvikAndroidApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="label_all">All Qvikies</string>
+    <string name="label_engineers">Engineers Qvikies</string>
+    <string name="label_designers">Designers Qvikies</string>
+    <string name="no_qvikies_all">No Qvikies!</string>
+    <string name="no_qvikies_engineers">No Engineers Qvikies!</string>
+    <string name="no_qvikies_designers">No Designers Qvikies!</string>
+
+    <string name="no_name" />
+    <string name="no_title" />
+    <string name="no_data_description" />
+    <string name="no_data_phone_number" />
+
+    <string name="list_title">Qvikies List</string>
+    <string name="statistics_title">Statistics</string>
+    <string name="navigation_view_header_title">Qvikies</string>
+    <string name="menu_filter">Filter</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="nav_all">All</string>
+    <string name="nav_engineers">Engineers</string>
+    <string name="nav_designers">Designers</string>
+</resources>
