@@ -2,7 +2,6 @@ package com.qvik.qvikandroidapp.data.source;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.method.QwertyKeyListener;
 
 import com.qvik.qvikandroidapp.data.Qvikie;
 

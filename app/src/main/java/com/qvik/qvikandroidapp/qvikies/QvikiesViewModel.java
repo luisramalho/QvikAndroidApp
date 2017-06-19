@@ -104,7 +104,6 @@ public class QvikiesViewModel extends BaseObservable {
         }
     }
 
-
     /**
      * Called by the Data Binding library and the FAB's click listener.
      */
@@ -123,7 +122,6 @@ public class QvikiesViewModel extends BaseObservable {
             dataLoading.set(true);
         }
         if (forceUpdate) {
-
             mQvikiesRepository.refreshQvikies();
         }
 
