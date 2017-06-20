@@ -27,7 +27,8 @@ import java.util.List;
  */
 public class QvikiesViewModel extends BaseObservable {
 
-    public final ObservableList<Qvikie> qvikies = new ObservableArrayList<>();
+    // These observable fields will update Views automatically
+    public final ObservableList<Qvikie> items = new ObservableArrayList<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
@@ -70,7 +71,7 @@ public class QvikiesViewModel extends BaseObservable {
 
     @Bindable
     public boolean isEmpty() {
-        return qvikies.isEmpty();
+        return items.isEmpty();
     }
 
     public void loadQvikies(boolean forceUpdate) {
@@ -132,7 +133,7 @@ public class QvikiesViewModel extends BaseObservable {
         mQvikiesRepository.getQvikies(new QvikiesDataSource.LoadQvikiesCallback() {
             @Override
             public void onQvikiesLoaded(List<Qvikie> qvikies) {
-                List<Qvikie> qvikiesToShow = new ArrayList<Qvikie>();
+                List<Qvikie> qvikiesToShow = new ArrayList<>();
 
                 // This callback may be called twice, once for the cache and once for loading
                 // the data from the server API, so we check before decrementing, otherwise
@@ -167,8 +168,8 @@ public class QvikiesViewModel extends BaseObservable {
                 }
                 mIsDataLoadingError.set(false);
 
-                qvikies.clear();
-                qvikies.addAll(qvikiesToShow);
+                items.clear();
+                items.addAll(qvikiesToShow);
                 notifyPropertyChanged(BR.empty); // It's a @Bindable so update manually
             }
 

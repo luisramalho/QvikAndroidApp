@@ -41,7 +41,7 @@
 
             <ListView
                 android:id="@+id/qvikies_list"
-                app:items="@{viewmodel.qvikies}"
+                app:items="@{viewmodel.items}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
