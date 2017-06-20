@@ -81,7 +81,8 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     @Override
     public void refreshQvikies() {
-
+        // Not required because the {@link QvikiesRepository} handles the logic of refreshing the
+        // qvikies from all the available data sources.
     }
 
     @Override
