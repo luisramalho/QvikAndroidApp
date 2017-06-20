@@ -106,7 +106,7 @@ public class QvikiesRepository implements QvikiesDataSource {
     }
 
     /**
-     * Gets qvikies from local data source (sqlite) unless the table is new or empty. In that case it
+     * Gets qvikies from local data source (realm) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
      * <p>
      * Note: {@link GetQvikieCallback#onDataNotAvailable()} is fired if both data sources fail to
