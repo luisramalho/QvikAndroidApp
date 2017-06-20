@@ -9,13 +9,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.UUID;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
- * Immutable model class for a Qvikie.
+ * Model class for a Qvikie.
  */
 @IgnoreExtraProperties
-public final class Qvikie {
+public class Qvikie extends RealmObject {
 
-    @NonNull
+    @NonNull @PrimaryKey
     private String id;
 
     @Nullable
@@ -84,17 +87,25 @@ public final class Qvikie {
         return name;
     }
 
+    public void setName(@Nullable String name) {
+        this.name = name;
+    }
+
     @Nullable
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(@Nullable String title) {
+        this.title = title;
+    }
+
     @Nullable
     public String getTitleForList() {
-        if (!Strings.isNullOrEmpty(title)) {
-            return title;
+        if (!Strings.isNullOrEmpty(name)) {
+            return name;
         } else {
-            return description;
+            return title;
         }
     }
 
@@ -103,14 +114,26 @@ public final class Qvikie {
         return description;
     }
 
+    public void setDescription(@Nullable String description) {
+        this.description = description;
+    }
+
     @Nullable
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setPhoneNumber(@Nullable String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Nullable
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(@Nullable String email) {
+        this.email = email;
     }
 
     public boolean isEngineer() {
