@@ -99,6 +99,11 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabase"
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
