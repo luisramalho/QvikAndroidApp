@@ -25,6 +25,8 @@ public abstract class QvikieViewModel extends BaseObservable implements QvikiesD
 
     public final ObservableField<String> description = new ObservableField<>();
 
+    public final ObservableField<String> email = new ObservableField<>();
+
     public final ObservableField<String> phoneNumber = new ObservableField<>();
 
     private final ObservableField<Qvikie> mQvikieObservable = new ObservableField<>();
@@ -47,12 +49,14 @@ public abstract class QvikieViewModel extends BaseObservable implements QvikiesD
                 if (qvikie != null) {
                     name.set(qvikie.getName());
                     title.set(qvikie.getTitle());
-                    //description.set(qvikie.getDescription());
-                    //phoneNumber.set(qvikie.getPhoneNumber());
+                    description.set(qvikie.getDescription());
+                    email.set(qvikie.getEmail());
+                    phoneNumber.set(qvikie.getPhoneNumber());
                 } else {
                     name.set(mContext.getString(R.string.no_name));
                     title.set(mContext.getString(R.string.no_title));
                     description.set(mContext.getString(R.string.no_data_description));
+                    email.set("");
                     phoneNumber.set(mContext.getString(R.string.no_data_phone_number));
                 }
             }

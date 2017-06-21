@@ -1,5 +1,6 @@
 package com.qvik.qvikandroidapp.qvikies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.qvik.qvikandroidapp.Injection;
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelHolder;
+import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
 import com.qvik.qvikandroidapp.util.EspressoIdlingResource;
 
@@ -182,8 +184,8 @@ public class QvikiesActivity extends AppCompatActivity implements QvikieItemNavi
 
     @Override
     public void openQvikieDetails(String qvikieId) {
-        //Intent intent = new Intent(this, QvikieDetailActivity.class);
-        //intent.putExtra(QvikieDetailActivity.EXTRA_QVIKIE_ID, qvikieId);
-        //startActivityForResult(intent, AddEditQvikieActivity.REQUEST_CODE);
+        Intent intent = new Intent(this, QvikieDetailActivity.class);
+        intent.putExtra(QvikieDetailActivity.EXTRA_QVIKIE_ID, qvikieId);
+        startActivity(intent);
     }
 }
