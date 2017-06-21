@@ -137,11 +137,11 @@ public class Qvikie extends RealmObject {
     }
 
     public boolean isEngineer() {
-        return title != null && title.equals("ENGINEER");
+        return title != null && title.equals("engineer");
     }
 
     public boolean isDesigner() {
-        return title != null && title.equals("DESIGNER");
+        return title != null && title.equals("designer");
     }
 
     public boolean isEmpty() {
