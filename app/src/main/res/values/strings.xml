@@ -13,6 +13,7 @@
 
     <string name="no_name" />
     <string name="no_title" />
+    <string name="no_data">No Data</string>
     <string name="no_data_description" />
     <string name="no_data_phone_number" />
 
