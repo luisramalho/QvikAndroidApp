@@ -102,7 +102,7 @@ public abstract class QvikieViewModel extends BaseObservable implements QvikiesD
         mIsDataLoading = false;
     }
 
-    public void deleteTask() {
+    public void deleteQvikie() {
         if (mQvikieObservable.get() != null) {
             mQvikiesRepository.deleteQvikie(mQvikieObservable.get().getId());
         }
