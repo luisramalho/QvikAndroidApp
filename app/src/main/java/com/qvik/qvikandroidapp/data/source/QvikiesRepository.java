@@ -69,7 +69,7 @@ public class QvikiesRepository implements QvikiesDataSource {
     }
 
     /**
-     * Gets qvikies from cache, local data source (SQLite) or remote data source, whichever is
+     * Gets qvikies from cache, local data source (realm) or remote data source, whichever is
      * available first.
      * <p>
      * Note: {@link LoadQvikiesCallback#onDataNotAvailable()} is fired if all data sources fail to
