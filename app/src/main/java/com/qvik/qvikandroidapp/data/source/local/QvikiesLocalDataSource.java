@@ -67,7 +67,9 @@ public class QvikiesLocalDataSource implements QvikiesDataSource {
     @Override
     public void deleteAllQvikies() {
         RealmResults<Qvikie> qvikies = realm.where(Qvikie.class).findAll();
+        realm.beginTransaction();
         qvikies.deleteAllFromRealm();
+        realm.commitTransaction();
     }
 
     @Override
