@@ -19,12 +19,11 @@ import java.util.List;
  */
 public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
+    public static final String TAG = "QvikiesRemoteDataSource";
+
     private static QvikiesRemoteDataSource INSTANCE;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference("qvikies");
-
-    public static final String TAG = "QvikiesRemoteDataSource";
+    private DatabaseReference reference;
 
     public static QvikiesRemoteDataSource getInstance() {
         if (INSTANCE == null) {
@@ -35,11 +34,12 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     private QvikiesRemoteDataSource() {
         // Prevents instantiation
+        reference = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public void getQvikies(@NonNull final LoadQvikiesCallback callback) {
-        database.getReference("qvikies").addValueEventListener(new ValueEventListener() {
+        reference.child("qvikies").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 List<Qvikie> qvikies = new ArrayList<>();
@@ -61,7 +61,7 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     @Override
     public void getQvikie(@NonNull final String qvikieId, @NonNull final GetQvikieCallback callback) {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("qvikies").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 callback.onQvikieLoaded((Qvikie) dataSnapshot.child(qvikieId).getValue());
@@ -76,7 +76,7 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     @Override
     public void saveQvikie(@NonNull Qvikie qvikie) {
-        databaseReference.setValue(qvikie);
+        reference.setValue(qvikie);
     }
 
     @Override
