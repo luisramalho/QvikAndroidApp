@@ -15,53 +15,61 @@
             type="com.qvik.qvikandroidapp.qvikies.QvikiesViewModel" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/qvikiesContainer"
+    <com.qvik.qvikandroidapp.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:orientation="vertical">
+        android:onRefresh="@{viewmodel}"
+        app:refreshing="@{viewmodel.dataLoading}">
 
-        <LinearLayout
-            android:id="@+id/qvikiesLL"
+        <RelativeLayout
+            android:id="@+id/qvikiesContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}">
+            android:clickable="true"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/filteringLabel"
+            <LinearLayout
+                android:id="@+id/qvikiesLL"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="@{viewmodel.currentFilteringLabel}" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}">
 
-            <ListView
-                android:id="@+id/qvikies_list"
-                app:items="@{viewmodel.items}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/filteringLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@{viewmodel.currentFilteringLabel}" />
 
-        <LinearLayout
-            android:id="@+id/noQvikies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+                <ListView
+                    android:id="@+id/qvikies_list"
+                    app:items="@{viewmodel.items}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/noQvikiesMain"
+            <LinearLayout
+                android:id="@+id/noQvikies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@{viewmodel.noQvikiesLabel}"
-                />
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
 
-        </LinearLayout>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/noQvikiesMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{viewmodel.noQvikiesLabel}"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </com.qvik.qvikandroidapp.ScrollChildSwipeRefreshLayout>
 </layout>
