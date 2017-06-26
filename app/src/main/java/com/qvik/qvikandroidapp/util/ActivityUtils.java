@@ -17,12 +17,12 @@ public class ActivityUtils {
      * performed by the {@code fragmentManager}.
      *
      */
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
+    public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager,
+                                                 @NonNull Fragment fragment, int frameId) {
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
+        transaction.replace(frameId, fragment);
         transaction.commit();
     }
 
@@ -31,8 +31,8 @@ public class ActivityUtils {
      * performed by the {@code fragmentManager}.
      *
      */
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, String tag) {
+    public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager,
+                                                 @NonNull Fragment fragment, String tag) {
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();

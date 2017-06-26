@@ -1,34 +1,31 @@
 package com.qvik.qvikandroidapp.qvikies;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 
-import com.qvik.qvikandroidapp.BR;
 import com.qvik.qvikandroidapp.R;
+import com.qvik.qvikandroidapp.SingleLiveEvent;
 import com.qvik.qvikandroidapp.data.Qvikie;
 import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
-import com.qvik.qvikandroidapp.util.EspressoIdlingResource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Exposes the data to be used in the qvikie list screen.
- * <p>
- * {@link BaseObservable} implements a listener registration mechanism which is notified when a
- * property changes. This is done by assigning a {@link Bindable} annotation to the property's
- * getter method.
  */
-public class QvikiesViewModel extends BaseObservable {
+public class QvikiesViewModel extends AndroidViewModel {
 
     // These observable fields will update Views automatically
     public final ObservableList<Qvikie> items = new ObservableArrayList<>();
+
+    public final ObservableBoolean empty = new ObservableBoolean(false);
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
@@ -36,46 +33,37 @@ public class QvikiesViewModel extends BaseObservable {
 
     public final ObservableField<String> noQvikiesLabel = new ObservableField<>();
 
-    final ObservableField<String> snackbarText = new ObservableField<>();
+    private QvikiesFilterType currentFiltering = QvikiesFilterType.ALL_QVIKIES;
 
-    private QvikiesFilterType mCurrentFiltering = QvikiesFilterType.ALL_QVIKIES;
+    private final QvikiesRepository qvikiesRepository;
 
-    private final QvikiesRepository mQvikiesRepository;
+    private final ObservableBoolean isDataLoadingError = new ObservableBoolean(false);
 
-    private final ObservableBoolean mIsDataLoadingError = new ObservableBoolean(false);
+    private SingleLiveEvent<String> openQvikieEvent = new SingleLiveEvent<>();
 
-    private Context mContext; // To avoid leaks, this must be an Application Context.
+    private Context context; // To avoid leaks, this must be an Application Context.
 
     private QvikiesNavigator mNavigator;
 
-    public QvikiesViewModel(QvikiesRepository qvikiesRepository, Context context) {
-        mQvikiesRepository = qvikiesRepository;
-        mContext = context;
+    public QvikiesViewModel(Application context, QvikiesRepository qvikiesRepository) {
+        super(context);
+        this.context = context.getApplicationContext();
+        this.qvikiesRepository = qvikiesRepository;
 
         // Set initial state
         setFiltering(QvikiesFilterType.ALL_QVIKIES);
-    }
-
-    void setNavigator(QvikiesNavigator navigator) {
-        mNavigator = navigator;
-    }
-
-    void onActivityDestroyed() {
-        // Clear references to avoid potential memory leaks.
-        mNavigator = null;
     }
 
     public void start() {
         loadQvikies(false);
     }
 
-    @Bindable
-    public boolean isEmpty() {
-        return items.isEmpty();
-    }
-
     public void loadQvikies(boolean forceUpdate) {
         loadQvikies(forceUpdate, true);
+    }
+
+    SingleLiveEvent<String> getOpenQvikieEvent() {
+        return openQvikieEvent;
     }
 
     /**
@@ -86,31 +74,22 @@ public class QvikiesViewModel extends BaseObservable {
      *                    {@link QvikiesFilterType#DESIGNERS}
      */
     public void setFiltering(QvikiesFilterType requestType) {
-        mCurrentFiltering = requestType;
+        currentFiltering = requestType;
 
         // Depending on the filter type, set the filtering label, icon drawables, etc.
         switch (requestType) {
             case ALL_QVIKIES:
-                currentFilteringLabel.set(mContext.getString(R.string.label_all));
-                noQvikiesLabel.set(mContext.getResources().getString(R.string.no_qvikies_all));
+                currentFilteringLabel.set(context.getString(R.string.label_all));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_all));
                 break;
             case ENGINEERS:
-                currentFilteringLabel.set(mContext.getString(R.string.label_engineers));
-                noQvikiesLabel.set(mContext.getResources().getString(R.string.no_qvikies_engineers));
+                currentFilteringLabel.set(context.getString(R.string.label_engineers));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_engineers));
                 break;
             case DESIGNERS:
-                currentFilteringLabel.set(mContext.getString(R.string.label_designers));
-                noQvikiesLabel.set(mContext.getResources().getString(R.string.no_qvikies_designers));
+                currentFilteringLabel.set(context.getString(R.string.label_designers));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_designers));
                 break;
-        }
-    }
-
-    /**
-     * Called by the Data Binding library and the FAB's click listener.
-     */
-    public void addNewQvikie() {
-        if (mNavigator != null) {
-            mNavigator.addNewQvikie();
         }
     }
 
@@ -123,28 +102,17 @@ public class QvikiesViewModel extends BaseObservable {
             dataLoading.set(true);
         }
         if (forceUpdate) {
-            mQvikiesRepository.refreshQvikies();
+            qvikiesRepository.refreshQvikies();
         }
 
-        // The network request might be handled in a different thread so make sure Espresso knows
-        // that the app is busy until the response is handled.
-        EspressoIdlingResource.increment(); // App is busy until further notice
-
-        mQvikiesRepository.getQvikies(new QvikiesDataSource.LoadQvikiesCallback() {
+        qvikiesRepository.getQvikies(new QvikiesDataSource.LoadQvikiesCallback() {
             @Override
             public void onQvikiesLoaded(List<Qvikie> qvikies) {
                 List<Qvikie> qvikiesToShow = new ArrayList<>();
 
-                // This callback may be called twice, once for the cache and once for loading
-                // the data from the server API, so we check before decrementing, otherwise
-                // it throws "Counter has been corrupted!" exception.
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement(); // Set app as idle.
-                }
-
-                // We filter the tasks based on the requestType
+                // We filter the qvikies based on the requestType
                 for (Qvikie qvikie : qvikies) {
-                    switch (mCurrentFiltering) {
+                    switch (currentFiltering) {
                         case ALL_QVIKIES:
                             qvikiesToShow.add(qvikie);
                             break;
@@ -166,16 +134,16 @@ public class QvikiesViewModel extends BaseObservable {
                 if (showLoadingUI) {
                     dataLoading.set(false);
                 }
-                mIsDataLoadingError.set(false);
+                isDataLoadingError.set(false);
 
                 items.clear();
                 items.addAll(qvikiesToShow);
-                notifyPropertyChanged(BR.empty); // It's a @Bindable so update manually
+                empty.set(items.isEmpty());
             }
 
             @Override
             public void onDataNotAvailable() {
-                mIsDataLoadingError.set(true);
+                isDataLoadingError.set(true);
             }
         });
     }

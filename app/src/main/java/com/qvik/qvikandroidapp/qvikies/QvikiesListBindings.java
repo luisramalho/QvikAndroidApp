@@ -15,7 +15,7 @@ public class QvikiesListBindings {
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:items")
     public static void setItems(ListView listView, List<Qvikie> qvikies) {
-        QvikiesFragment.QvikiesAdapter adapter = (QvikiesFragment.QvikiesAdapter) listView.getAdapter();
+        QvikiesAdapter adapter = (QvikiesAdapter) listView.getAdapter();
         if (adapter != null) {
             adapter.replaceData(qvikies);
         }

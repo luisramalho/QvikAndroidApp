@@ -60,7 +60,7 @@ public class Qvikie extends RealmObject {
      * @param name        name of the qvikie
      * @param title       title of the qvikie
      * @param description description of the qvikie
-     * @param id          id of the task
+     * @param id          id of the qvikie
      */
     public Qvikie(@NonNull String id, @Nullable String name, @Nullable String title,
                   @Nullable String description, @Nullable String phoneNumber,

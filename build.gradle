@@ -37,8 +37,7 @@ ext {
     // App dependencies
     supportLibraryVersion = '25.4.0'
     constraintLayoutVersion = '1.0.2'
-    archVersion = '1.0.0-alpha3'
-    guavaVersion = '18.0'
+    guavaVersion = '22.0-android'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
     dexmakerVersion = '1.2'
@@ -48,4 +47,7 @@ ext {
     rulesVersion = '0.5'
     espressoVersion = '2.2.2'
     firebaseDatabase = '11.0.1'
+
+    // Architecture Components dependencies
+    archLifecycleVersion = '1.0.0-alpha3'
 }

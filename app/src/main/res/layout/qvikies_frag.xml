@@ -7,10 +7,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="view"
-            type="com.qvik.qvikandroidapp.qvikies.QvikiesFragment" />
-
-        <variable
             name="viewmodel"
             type="com.qvik.qvikandroidapp.qvikies.QvikiesViewModel" />
     </data>

@@ -54,26 +54,25 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-    //    exclude group: 'com.android.support', module: 'support-annotations'
-    //})
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
-    implementation "com.android.support:support-vector-drawable:$rootProject.supportLibraryVersion"
+    // App's dependencies, including test
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+    compile "com.android.support:support-vector-drawable:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
     compile "com.google.guava:guava:$rootProject.guavaVersion"
 
-    compile "android.arch.lifecycle:runtime:$rootProject.archVersion"
-    compile "android.arch.lifecycle:extensions:$rootProject.archVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archVersion"
+    compile "android.arch.lifecycle:runtime:$rootProject.archLifecycleVersion"
+    compile "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
 
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
     testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+
+    testCompile "android.arch.core:core-testing:$rootProject.archLifecycleVersion"
 
     // Android Testing Support Library's runner and rules
     androidTestCompile "com.android.support.test:runner:$rootProject.ext.runnerVersion"
@@ -96,6 +95,7 @@ dependencies {
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile('com.google.code.findbugs:jsr305:2.0.1')
 
     // Firebase
     implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabase"

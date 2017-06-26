@@ -49,7 +49,7 @@
                 android:id="@+id/qvikie_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.name}"
+                android:text="@{viewmodel.qvikie.name}"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_below="@id/qvikie_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.title}"
+                android:text="@{viewmodel.qvikie.title}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:layout_below="@id/qvikie_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.email}"
+                android:text="@{viewmodel.qvikie.email}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_below="@id/qvikie_detail_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.phoneNumber}"
+                android:text="@{viewmodel.qvikie.phoneNumber}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </RelativeLayout>

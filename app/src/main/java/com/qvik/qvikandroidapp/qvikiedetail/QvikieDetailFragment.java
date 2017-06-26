@@ -1,8 +1,8 @@
 package com.qvik.qvikandroidapp.qvikiedetail;
 
+import android.arch.lifecycle.LifecycleFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.databinding.QvikiedetailFragBinding;
 
-public class QvikieDetailFragment extends Fragment{
+public class QvikieDetailFragment extends LifecycleFragment {
 
     public static final String ARGUMENT_QVIKIE_ID = "QVIKIE_ID";
 
@@ -22,10 +22,6 @@ public class QvikieDetailFragment extends Fragment{
         QvikieDetailFragment fragment = new QvikieDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    public void setViewModel(QvikieDetailViewModel viewModel) {
-        this.viewModel = viewModel;
     }
 
     @Override
@@ -41,6 +37,9 @@ public class QvikieDetailFragment extends Fragment{
         View view = inflater.inflate(R.layout.qvikiedetail_frag, container, false);
 
         QvikiedetailFragBinding viewDataBinding = QvikiedetailFragBinding.bind(view);
+
+        viewModel = QvikieDetailActivity.obtainViewModel(getActivity());
+
         viewDataBinding.setViewmodel(viewModel);
 
         return view;

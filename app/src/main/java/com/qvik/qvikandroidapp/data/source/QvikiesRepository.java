@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.qvik.qvikandroidapp.data.Qvikie;
+import com.qvik.qvikandroidapp.util.EspressoIdlingResource;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,7 +37,7 @@ public class QvikiesRepository implements QvikiesDataSource {
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
      * has package local visibility so it can be accessed from tests.
      */
-    boolean mCacheIsDirty = false;
+    private boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
     private QvikiesRepository(@NonNull QvikiesDataSource qvikiesRemoteDataSource,
@@ -85,6 +86,8 @@ public class QvikiesRepository implements QvikiesDataSource {
             return;
         }
 
+        EspressoIdlingResource.increment(); // App is busy until further notice
+
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
             getQvikiesFromRemoteDataSource(callback);
@@ -94,6 +97,9 @@ public class QvikiesRepository implements QvikiesDataSource {
                 @Override
                 public void onQvikiesLoaded(List<Qvikie> qvikies) {
                     refreshCache(qvikies);
+
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+
                     callback.onQvikiesLoaded(new ArrayList<>(mCachedQvikies.values()));
                 }
 
@@ -125,17 +131,27 @@ public class QvikiesRepository implements QvikiesDataSource {
             return;
         }
 
+        EspressoIdlingResource.increment(); // App is busy until further notice
+
         // Load from server/persisted if needed.
 
         // Is the qvikie in the local data source? If not, query the network.
         mQvikiesLocalDataSource.getQvikie(qvikieId, new GetQvikieCallback() {
             @Override
             public void onQvikieLoaded(Qvikie qvikie) {
+                if (qvikie == null) {
+                    onDataNotAvailable();
+                    return;
+                }
+
                 // Do in memory cache update to keep the app UI up to date
                 if (mCachedQvikies == null) {
                     mCachedQvikies = new LinkedHashMap<>();
                 }
                 mCachedQvikies.put(qvikie.getId(), qvikie);
+
+                EspressoIdlingResource.decrement(); // Set app as idle.
+
                 callback.onQvikieLoaded(qvikie);
             }
 
@@ -149,11 +165,16 @@ public class QvikiesRepository implements QvikiesDataSource {
                             mCachedQvikies = new LinkedHashMap<>();
                         }
                         mCachedQvikies.put(qvikie.getId(), qvikie);
+
+                        EspressoIdlingResource.decrement(); // Set app as idle.
+
                         callback.onQvikieLoaded(qvikie);
                     }
 
                     @Override
                     public void onDataNotAvailable() {
+                        EspressoIdlingResource.decrement(); // Set app as idle.
+
                         callback.onDataNotAvailable();
                     }
                 });
@@ -204,11 +225,16 @@ public class QvikiesRepository implements QvikiesDataSource {
             public void onQvikiesLoaded(List<Qvikie> qvikies) {
                 refreshCache(qvikies);
                 refreshLocalDataSource(qvikies);
+
+                EspressoIdlingResource.decrement(); // Set app as idle.
+
                 callback.onQvikiesLoaded(new ArrayList<>(mCachedQvikies.values()));
             }
 
             @Override
             public void onDataNotAvailable() {
+                EspressoIdlingResource.decrement(); // Set app as idle.
+
                 callback.onDataNotAvailable();
             }
         });
