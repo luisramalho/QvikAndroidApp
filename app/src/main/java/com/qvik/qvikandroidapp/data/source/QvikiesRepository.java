@@ -24,26 +24,26 @@ public class QvikiesRepository implements QvikiesDataSource {
 
     private static QvikiesRepository INSTANCE = null;
 
-    private final QvikiesDataSource mQvikiesRemoteDataSource;
+    private final QvikiesDataSource qvikiesRemoteDataSource;
 
-    private final QvikiesDataSource mQvikiesLocalDataSource;
+    private final QvikiesDataSource qvikiesLocalDataSource;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
      */
-    Map<String, Qvikie> mCachedQvikies;
+    Map<String, Qvikie> cachedQvikies;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
      * has package local visibility so it can be accessed from tests.
      */
-    private boolean mCacheIsDirty = false;
+    private boolean cacheIsDirty = false;
 
     // Prevent direct instantiation.
     private QvikiesRepository(@NonNull QvikiesDataSource qvikiesRemoteDataSource,
                             @NonNull QvikiesDataSource qvikiesLocalDataSource) {
-        mQvikiesRemoteDataSource = checkNotNull(qvikiesRemoteDataSource);
-        mQvikiesLocalDataSource = checkNotNull(qvikiesLocalDataSource);
+        this.qvikiesRemoteDataSource = checkNotNull(qvikiesRemoteDataSource);
+        this.qvikiesLocalDataSource = checkNotNull(qvikiesLocalDataSource);
     }
 
     /**
@@ -81,26 +81,26 @@ public class QvikiesRepository implements QvikiesDataSource {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
-        if (mCachedQvikies != null && !mCacheIsDirty) {
-            callback.onQvikiesLoaded(new ArrayList<>(mCachedQvikies.values()));
+        if (cachedQvikies != null && !cacheIsDirty) {
+            callback.onQvikiesLoaded(new ArrayList<>(cachedQvikies.values()));
             return;
         }
 
         EspressoIdlingResource.increment(); // App is busy until further notice
 
-        if (mCacheIsDirty) {
+        if (cacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
             getQvikiesFromRemoteDataSource(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            mQvikiesLocalDataSource.getQvikies(new LoadQvikiesCallback() {
+            qvikiesLocalDataSource.getQvikies(new LoadQvikiesCallback() {
                 @Override
                 public void onQvikiesLoaded(List<Qvikie> qvikies) {
                     refreshCache(qvikies);
 
                     EspressoIdlingResource.decrement(); // Set app as idle.
 
-                    callback.onQvikiesLoaded(new ArrayList<>(mCachedQvikies.values()));
+                    callback.onQvikiesLoaded(new ArrayList<>(cachedQvikies.values()));
                 }
 
                 @Override
@@ -136,7 +136,7 @@ public class QvikiesRepository implements QvikiesDataSource {
         // Load from server/persisted if needed.
 
         // Is the qvikie in the local data source? If not, query the network.
-        mQvikiesLocalDataSource.getQvikie(qvikieId, new GetQvikieCallback() {
+        qvikiesLocalDataSource.getQvikie(qvikieId, new GetQvikieCallback() {
             @Override
             public void onQvikieLoaded(Qvikie qvikie) {
                 if (qvikie == null) {
@@ -145,10 +145,10 @@ public class QvikiesRepository implements QvikiesDataSource {
                 }
 
                 // Do in memory cache update to keep the app UI up to date
-                if (mCachedQvikies == null) {
-                    mCachedQvikies = new LinkedHashMap<>();
+                if (cachedQvikies == null) {
+                    cachedQvikies = new LinkedHashMap<>();
                 }
-                mCachedQvikies.put(qvikie.getId(), qvikie);
+                cachedQvikies.put(qvikie.getId(), qvikie);
 
                 EspressoIdlingResource.decrement(); // Set app as idle.
 
@@ -157,14 +157,14 @@ public class QvikiesRepository implements QvikiesDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mQvikiesRemoteDataSource.getQvikie(qvikieId, new GetQvikieCallback() {
+                qvikiesRemoteDataSource.getQvikie(qvikieId, new GetQvikieCallback() {
                     @Override
                     public void onQvikieLoaded(Qvikie qvikie) {
                         // Do in memory cache update to keep the app UI up to date
-                        if (mCachedQvikies == null) {
-                            mCachedQvikies = new LinkedHashMap<>();
+                        if (cachedQvikies == null) {
+                            cachedQvikies = new LinkedHashMap<>();
                         }
-                        mCachedQvikies.put(qvikie.getId(), qvikie);
+                        cachedQvikies.put(qvikie.getId(), qvikie);
 
                         EspressoIdlingResource.decrement(); // Set app as idle.
 
@@ -185,42 +185,42 @@ public class QvikiesRepository implements QvikiesDataSource {
     @Override
     public void saveQvikie(@NonNull Qvikie qvikie) {
         checkNotNull(qvikie);
-        mQvikiesRemoteDataSource.saveQvikie(qvikie);
-        mQvikiesLocalDataSource.saveQvikie(qvikie);
+        qvikiesRemoteDataSource.saveQvikie(qvikie);
+        qvikiesLocalDataSource.saveQvikie(qvikie);
 
         // Do in memory cache update to keep the app UI up to date
-        if (mCachedQvikies == null) {
-            mCachedQvikies = new LinkedHashMap<>();
+        if (cachedQvikies == null) {
+            cachedQvikies = new LinkedHashMap<>();
         }
-        mCachedQvikies.put(qvikie.getId(), qvikie);
+        cachedQvikies.put(qvikie.getId(), qvikie);
     }
 
     @Override
     public void refreshQvikies() {
-        mCacheIsDirty = true;
+        cacheIsDirty = true;
     }
 
     @Override
     public void deleteAllQvikies() {
-        mQvikiesRemoteDataSource.deleteAllQvikies();
-        mQvikiesLocalDataSource.deleteAllQvikies();
+        qvikiesRemoteDataSource.deleteAllQvikies();
+        qvikiesLocalDataSource.deleteAllQvikies();
 
-        if (mCachedQvikies == null) {
-            mCachedQvikies = new LinkedHashMap<>();
+        if (cachedQvikies == null) {
+            cachedQvikies = new LinkedHashMap<>();
         }
-        mCachedQvikies.clear();
+        cachedQvikies.clear();
     }
 
     @Override
     public void deleteQvikie(@NonNull String qvikieId) {
-        mQvikiesRemoteDataSource.deleteQvikie(checkNotNull(qvikieId));
-        mQvikiesLocalDataSource.deleteQvikie(checkNotNull(qvikieId));
+        qvikiesRemoteDataSource.deleteQvikie(checkNotNull(qvikieId));
+        qvikiesLocalDataSource.deleteQvikie(checkNotNull(qvikieId));
 
-        mCachedQvikies.remove(qvikieId);
+        cachedQvikies.remove(qvikieId);
     }
 
     private void getQvikiesFromRemoteDataSource(@NonNull final LoadQvikiesCallback callback) {
-        mQvikiesRemoteDataSource.getQvikies(new LoadQvikiesCallback() {
+        qvikiesRemoteDataSource.getQvikies(new LoadQvikiesCallback() {
             @Override
             public void onQvikiesLoaded(List<Qvikie> qvikies) {
                 refreshCache(qvikies);
@@ -228,7 +228,7 @@ public class QvikiesRepository implements QvikiesDataSource {
 
                 EspressoIdlingResource.decrement(); // Set app as idle.
 
-                callback.onQvikiesLoaded(new ArrayList<>(mCachedQvikies.values()));
+                callback.onQvikiesLoaded(new ArrayList<>(cachedQvikies.values()));
             }
 
             @Override
@@ -241,30 +241,30 @@ public class QvikiesRepository implements QvikiesDataSource {
     }
 
     private void refreshCache(List<Qvikie> qvikies) {
-        if (mCachedQvikies == null) {
-            mCachedQvikies = new LinkedHashMap<>();
+        if (cachedQvikies == null) {
+            cachedQvikies = new LinkedHashMap<>();
         }
-        mCachedQvikies.clear();
+        cachedQvikies.clear();
         for (Qvikie qvikie : qvikies) {
-            mCachedQvikies.put(qvikie.getId(), qvikie);
+            cachedQvikies.put(qvikie.getId(), qvikie);
         }
-        mCacheIsDirty = false;
+        cacheIsDirty = false;
     }
 
     private void refreshLocalDataSource(List<Qvikie> qvikies) {
-        mQvikiesLocalDataSource.deleteAllQvikies();
+        qvikiesLocalDataSource.deleteAllQvikies();
         for (Qvikie qvikie : qvikies) {
-            mQvikiesLocalDataSource.saveQvikie(qvikie);
+            qvikiesLocalDataSource.saveQvikie(qvikie);
         }
     }
 
     @Nullable
     private Qvikie getQvikieWithId(@NonNull String id) {
         checkNotNull(id);
-        if (mCachedQvikies == null || mCachedQvikies.isEmpty()) {
+        if (cachedQvikies == null || cachedQvikies.isEmpty()) {
             return null;
         } else {
-            return mCachedQvikies.get(id);
+            return cachedQvikies.get(id);
         }
     }
 }
