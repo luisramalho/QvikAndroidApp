@@ -42,6 +42,9 @@ captures/
 .idea/vcs.xml
 .idea/misc.xml
 .idea/sonarlint/
+.idea/codeStyleSettings.xml
+.idea/compiler.xml
+.idea/copyright/
 
 # Keystore files
 *.jks
