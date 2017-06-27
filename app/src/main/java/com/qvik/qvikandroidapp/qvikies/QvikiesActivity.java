@@ -79,10 +79,7 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
         // Use a Factory to inject dependencies into the ViewModel
         ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
 
-        QvikiesViewModel viewModel =
-                ViewModelProviders.of(activity, factory).get(QvikiesViewModel.class);
-
-        return viewModel;
+        return ViewModelProviders.of(activity, factory).get(QvikiesViewModel.class);
     }
 
     private void setupViewFragment() {
