@@ -43,8 +43,6 @@ public class QvikiesViewModel extends AndroidViewModel {
 
     private Context context; // To avoid leaks, this must be an Application Context.
 
-    private QvikiesNavigator mNavigator;
-
     public QvikiesViewModel(Application context, QvikiesRepository qvikiesRepository) {
         super(context);
         this.context = context.getApplicationContext();
