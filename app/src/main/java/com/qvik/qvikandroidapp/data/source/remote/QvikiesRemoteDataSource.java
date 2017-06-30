@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.qvik.qvikandroidapp.data.Qvikie;
 import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
+import com.qvik.qvikandroidapp.util.EspressoIdlingResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,35 +20,40 @@ import java.util.List;
  */
 public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
-    public static final String TAG = "QvikiesRemoteDataSource";
+    private static final String TAG = "QvikiesRemoteDataSource";
 
-    private static QvikiesRemoteDataSource INSTANCE;
+    private static final String QVIKIES = "qvikies";
 
-    private DatabaseReference reference;
+    private static QvikiesRemoteDataSource instance;
+
+    private DatabaseReference database;
 
     public static QvikiesRemoteDataSource getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new QvikiesRemoteDataSource();
+        if (instance == null) {
+            instance = new QvikiesRemoteDataSource();
         }
-        return INSTANCE;
+        return instance;
     }
 
     private QvikiesRemoteDataSource() {
         // Prevents instantiation
-        reference = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public void getQvikies(@NonNull final LoadQvikiesCallback callback) {
-        reference.child("qvikies").addValueEventListener(new ValueEventListener() {
+        database.child(QVIKIES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 List<Qvikie> qvikies = new ArrayList<>();
                 for(DataSnapshot data : snapshot.getChildren()){
                     Qvikie qvikie = data.getValue(Qvikie.class);
-                    qvikie.setId(data.getKey());
+                    if (qvikie != null) {
+                        qvikie.setId(data.getKey());
+                    }
                     qvikies.add(qvikie);
                 }
+
                 callback.onQvikiesLoaded(qvikies);
             }
 
@@ -61,22 +67,23 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     @Override
     public void getQvikie(@NonNull final String qvikieId, @NonNull final GetQvikieCallback callback) {
-        reference.child("qvikies").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child(QVIKIES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 callback.onQvikieLoaded((Qvikie) dataSnapshot.child(qvikieId).getValue());
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }
 
     @Override
     public void saveQvikie(@NonNull Qvikie qvikie) {
-        reference.setValue(qvikie);
+        database.child(QVIKIES).child(qvikie.getId()).setValue(qvikie);
     }
 
     @Override
@@ -87,11 +94,11 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
 
     @Override
     public void deleteAllQvikies() {
-
+        database.child(QVIKIES).removeValue();
     }
 
     @Override
     public void deleteQvikie(@NonNull String qvikieId) {
-
+        database.child(QVIKIES).child(qvikieId).removeValue();
     }
 }
