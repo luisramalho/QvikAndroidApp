@@ -7,7 +7,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.qvik.qvikandroidapp.qvikies.QvikiesViewModel" />
     </data>
 
@@ -15,8 +15,8 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onRefresh="@{viewmodel}"
-        app:refreshing="@{viewmodel.dataLoading}">
+        android:onRefresh="@{viewModel}"
+        app:refreshing="@{viewModel.dataLoading}">
 
         <RelativeLayout
             android:id="@+id/qvikiesContainer"
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}">
+                android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     android:id="@+id/filteringLabel"
@@ -40,11 +40,11 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:text="@{viewmodel.currentFilteringLabel}" />
+                    android:text="@{viewModel.currentFilteringLabel}" />
 
                 <ListView
                     android:id="@+id/qvikies_list"
-                    app:items="@{viewmodel.items}"
+                    app:items="@{viewModel.items}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -55,14 +55,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
-                android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/noQvikiesMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{viewmodel.noQvikiesLabel}"
+                    android:text="@{viewModel.noQvikiesLabel}"
                     />
 
             </LinearLayout>
