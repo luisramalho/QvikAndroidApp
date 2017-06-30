@@ -54,7 +54,7 @@ public class QvikiesLocalDataSource implements QvikiesDataSource {
     @Override
     public void saveQvikie(@NonNull Qvikie qvikie) {
         realm.beginTransaction();
-        realm.copyToRealm(qvikie);
+        realm.copyToRealmOrUpdate(qvikie);
         realm.commitTransaction();
     }
 
