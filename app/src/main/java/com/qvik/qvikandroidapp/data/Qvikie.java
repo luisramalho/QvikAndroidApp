@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Objects;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.UUID;
@@ -100,7 +101,7 @@ public class Qvikie extends RealmObject {
         this.title = title;
     }
 
-    @Nullable
+    @Nullable @Exclude
     public String getTitleForList() {
         if (!Strings.isNullOrEmpty(name)) {
             return name;
@@ -136,14 +137,17 @@ public class Qvikie extends RealmObject {
         this.email = email;
     }
 
+    @Exclude
     public boolean isEngineer() {
         return title != null && title.equals("engineer");
     }
 
+    @Exclude
     public boolean isDesigner() {
         return title != null && title.equals("designer");
     }
 
+    @Exclude
     public boolean isEmpty() {
         return Strings.isNullOrEmpty(name) && Strings.isNullOrEmpty(title);
     }
