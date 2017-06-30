@@ -2,9 +2,11 @@ package com.qvik.qvikandroidapp.qvikies;
 
 import android.app.Application;
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
+import android.arch.lifecycle.Observer;
 import android.content.res.Resources;
 
 import com.google.common.collect.Lists;
+import com.qvik.qvikandroidapp.TestUtils;
 import com.qvik.qvikandroidapp.data.Qvikie;
 import com.qvik.qvikandroidapp.data.source.QvikiesDataSource.LoadQvikiesCallback;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
@@ -19,6 +21,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -131,5 +135,20 @@ public class QvikiesViewModelTest {
         // And data loaded
         assertFalse(qvikiesViewModel.items.isEmpty());
         assertTrue(qvikiesViewModel.items.size() == 1);
+    }
+
+    @Test
+    public void clickOnAddQvikie_ShowsAddTaskUi() {
+
+        Observer<Void> observer = mock(Observer.class);
+
+        qvikiesViewModel.getNewQvikieEvent().observe(TestUtils.TEST_OBSERVER,
+                observer);
+
+        // When adding a new qvikie
+        qvikiesViewModel.addQvikie();
+
+        // Then the event is triggered
+        verify(observer).onChanged(null);
     }
 }

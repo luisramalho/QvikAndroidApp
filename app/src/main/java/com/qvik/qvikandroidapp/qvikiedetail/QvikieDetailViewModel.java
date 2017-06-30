@@ -21,7 +21,7 @@ public class QvikieDetailViewModel extends AndroidViewModel implements
 
     public final ObservableField<Qvikie> qvikie = new ObservableField<>();
 
-//    private SingleLiveEvent<Void> editQvikieCommand = new SingleLiveEvent<>();
+    private SingleLiveEvent<Void> editQvikieCommand = new SingleLiveEvent<>();
 
     private SingleLiveEvent<Void> deleteQvikieCommand = new SingleLiveEvent<>();
 
@@ -44,9 +44,13 @@ public class QvikieDetailViewModel extends AndroidViewModel implements
         }
     }
 
-//    public void editQvikie() {
-//        editQvikieCommand.call();
-//    }
+    public SingleLiveEvent<Void> getEditQvikieCommand() {
+        return editQvikieCommand;
+    }
+
+    public void editQvikie() {
+        editQvikieCommand.call();
+    }
 
     public SingleLiveEvent<Void> getDeleteQvikieCommand() {
         return deleteQvikieCommand;

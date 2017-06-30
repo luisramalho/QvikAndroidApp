@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".qvikiedetail.QvikieDetailActivity" />
+        <activity android:name=".addeditqvikie.AddEditQvikieActivity" />
     </application>
 
 </manifest>

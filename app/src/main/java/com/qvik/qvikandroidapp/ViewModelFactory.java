@@ -5,6 +5,7 @@ import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieViewModel;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailViewModel;
 import com.qvik.qvikandroidapp.qvikies.QvikiesViewModel;
@@ -20,7 +21,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile ViewModelFactory INSTANCE;
 
-    private final Application mApplication;
+    private final Application application;
 
     private final QvikiesRepository qvikiesRepository;
 
@@ -37,8 +38,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         return INSTANCE;
     }
 
-    private ViewModelFactory(Application application, QvikiesRepository repository) {
-        mApplication = application;
+    private ViewModelFactory(Application application,
+                             QvikiesRepository repository) {
+        this.application = application;
         qvikiesRepository = repository;
     }
 
@@ -46,11 +48,15 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(QvikieDetailViewModel.class)) {
             //noinspection unchecked
-            return (T) new QvikieDetailViewModel(mApplication, qvikiesRepository);
+            return (T) new QvikieDetailViewModel(application, qvikiesRepository);
+        } else if (modelClass.isAssignableFrom(AddEditQvikieViewModel.class)) {
+            //noinspection unchecked
+            return (T) new AddEditQvikieViewModel(application, qvikiesRepository);
         } else if (modelClass.isAssignableFrom(QvikiesViewModel.class)) {
             //noinspection unchecked
-            return (T) new QvikiesViewModel(mApplication, qvikiesRepository);
+            return (T) new QvikiesViewModel(application, qvikiesRepository);
         }
-        throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
+        throw new IllegalArgumentException("Unknown ViewModel class: " +
+                modelClass.getName());
     }
 }

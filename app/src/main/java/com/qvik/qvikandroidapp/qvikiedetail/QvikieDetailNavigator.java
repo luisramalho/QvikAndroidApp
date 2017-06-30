@@ -5,5 +5,7 @@ package com.qvik.qvikandroidapp.qvikiedetail;
  */
 public interface QvikieDetailNavigator {
 
+    void onStartEditQvikie();
+
     void onQvikieDeleted();
 }

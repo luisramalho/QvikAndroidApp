@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieViewModel"/>
+    </data>
+
+    <com.qvik.qvikandroidapp.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:enabled="@{viewModel.dataLoading}"
+        app:refreshing="@{viewModel.dataLoading}">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}">
+
+                <EditText
+                    android:id="@+id/add_qvikie_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/name_hint"
+                    android:text="@={viewModel.name}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:maxLines="1"/>
+
+                <EditText
+                    android:id="@+id/add_qvikie_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/title_hint"
+                    android:text="@={viewModel.title}"
+                    android:maxLines="1"/>
+
+                <EditText
+                    android:id="@+id/add_qvikie_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:gravity="top"
+                    android:hint="@string/description_hint"
+                    android:text="@={viewModel.description}"/>
+
+                <EditText
+                    android:id="@+id/add_qvikie_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email_hint"
+                    android:text="@={viewModel.email}"
+                    android:maxLines="1"/>
+
+                <EditText
+                    android:id="@+id/add_qvikie_phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="@string/phone_hint"
+                    android:text="@={viewModel.phoneNumber}"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </com.qvik.qvikandroidapp.ScrollChildSwipeRefreshLayout>
+</layout>

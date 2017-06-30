@@ -1,29 +1,52 @@
 <resources>
     <string name="app_name">QvikAndroidApp</string>
+
+    <!-- Bottom navigation -->
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <!-- Labels -->
     <string name="label_all">All Qvikies</string>
     <string name="label_engineers">Engineers Qvikies</string>
     <string name="label_designers">Designers Qvikies</string>
-    <string name="no_qvikies_all">No Qvikies!</string>
-    <string name="no_qvikies_engineers">No Engineers Qvikies!</string>
-    <string name="no_qvikies_designers">No Designers Qvikies!</string>
 
+    <!-- Empty -->
     <string name="no_name" />
     <string name="no_title" />
     <string name="no_data">No Data</string>
     <string name="no_data_description" />
     <string name="no_data_phone_number" />
 
+    <string name="no_qvikies_all">No Qvikies!</string>
+    <string name="no_qvikies_engineers">No Engineers Qvikies!</string>
+    <string name="no_qvikies_designers">No Designers Qvikies!</string>
+
+    <!-- Drawer -->
     <string name="list_title">Qvikies List</string>
     <string name="statistics_title">Statistics</string>
     <string name="navigation_view_header_title">Qvikies</string>
-    <string name="menu_filter">Filter</string>
-    <string name="refresh">Refresh</string>
 
+    <!-- Menu -->
+    <string name="menu_add">Add Qvikie</string>
+    <string name="menu_delete">Delete Qvikie</string>
+    <string name="menu_filter">Filter</string>
+    <string name="menu_refresh">Refresh Qvikies</string>
+    <string name="menu_delete_all">Delete All Qvikies</string>
+
+    <!-- Navigation -->
     <string name="nav_all">All</string>
     <string name="nav_engineers">Engineers</string>
     <string name="nav_designers">Designers</string>
+
+    <!-- Actions -->
+    <string name="add_qvikie">New Qvikie</string>
+    <string name="edit_qvikie">Edit Qvikie</string>
+
+    <!-- Hints -->
+    <string name="name_hint">Name</string>
+    <string name="title_hint">Title</string>
+    <string name="description_hint">Description</string>
+    <string name="email_hint">E-mail</string>
+    <string name="phone_hint">Phone number</string>
 </resources>

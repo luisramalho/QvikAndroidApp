@@ -45,7 +45,7 @@ public class QvikiesFragment extends LifecycleFragment {
 
         qvikiesViewModel = QvikiesActivity.obtainViewModel(getActivity());
 
-        qvikiesFragBinding.setViewmodel(qvikiesViewModel);
+        qvikiesFragBinding.setViewModel(qvikiesViewModel);
 
         setHasOptionsMenu(true);
 
@@ -74,13 +74,18 @@ public class QvikiesFragment extends LifecycleFragment {
             case R.id.menu_refresh:
                 qvikiesViewModel.loadQvikies(true);
                 break;
+            case R.id.menu_add:
+                qvikiesViewModel.addQvikie();
+                break;
+            case R.id.menu_delete_all:
+                qvikiesViewModel.deleteAllQvikies();
         }
         return true;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.qvikies_fragment_menu, menu);
+        inflater.inflate(R.menu.qvikies_frag_menu, menu);
     }
 
     private void showFilteringPopUpMenu() {

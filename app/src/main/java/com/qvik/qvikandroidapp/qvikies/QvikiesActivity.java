@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.qvik.qvikandroidapp.LifecycleAppCompatActivity;
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelFactory;
+import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieActivity;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
 
@@ -71,6 +72,14 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
                 if (qvikieId != null) {
                     openQvikieDetails(qvikieId);
                 }
+            }
+        });
+
+        // Subscribe to "new qvikie" event
+        viewModel.getNewQvikieEvent().observe(this, new Observer<Void>() {
+            @Override
+            public void onChanged(@Nullable Void aVoid) {
+                addNewQvikie();
             }
         });
     }
@@ -149,9 +158,8 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
     }
 
     @Override
-    public void addNewQvikie() {
-        //Intent intent = new Intent(this, AddEditQvikieActivity.class);
-        //startActivityForResult(intent, AddEditQvikieActivity.REQUEST_CODE);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        viewModel.handleActivityResult(requestCode, resultCode);
     }
 
     @Override
@@ -159,5 +167,11 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
         Intent intent = new Intent(this, QvikieDetailActivity.class);
         intent.putExtra(QvikieDetailActivity.EXTRA_QVIKIE_ID, qvikieId);
         startActivity(intent);
+    }
+
+    @Override
+    public void addNewQvikie() {
+        Intent intent = new Intent(this, AddEditQvikieActivity.class);
+        startActivityForResult(intent, AddEditQvikieActivity.REQUEST_CODE);
     }
 }

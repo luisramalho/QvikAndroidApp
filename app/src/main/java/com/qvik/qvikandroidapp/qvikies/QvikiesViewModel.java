@@ -7,12 +7,15 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
+import android.widget.Toast;
 
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.SingleLiveEvent;
+import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieActivity;
 import com.qvik.qvikandroidapp.data.Qvikie;
 import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
+import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ public class QvikiesViewModel extends AndroidViewModel {
 
     private final ObservableBoolean isDataLoadingError = new ObservableBoolean(false);
 
+    private SingleLiveEvent<Void> newQvikieEvent = new SingleLiveEvent<>();
+
     private SingleLiveEvent<String> openQvikieEvent = new SingleLiveEvent<>();
 
     private Context context; // To avoid leaks, this must be an Application Context.
@@ -56,39 +61,33 @@ public class QvikiesViewModel extends AndroidViewModel {
         loadQvikies(false);
     }
 
+    public void addQvikie() {
+        newQvikieEvent.call();
+    }
+
+    public void deleteAllQvikies() {
+        qvikiesRepository.deleteAllQvikies();
+        loadQvikies(true);
+    }
+
+    void handleActivityResult(int requestCode, int resultCode) {
+        if (AddEditQvikieActivity.REQUEST_CODE == requestCode) {
+            switch (resultCode) {
+                case QvikieDetailActivity.EDIT_RESULT_OK:
+                    Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+                    break;
+                case AddEditQvikieActivity.ADD_EDIT_RESULT_OK:
+                    Toast.makeText(context, "Added!", Toast.LENGTH_SHORT).show();
+                    break;
+                case QvikieDetailActivity.DELETE_RESULT_OK:
+                    Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+
     public void loadQvikies(boolean forceUpdate) {
         loadQvikies(forceUpdate, true);
-    }
-
-    SingleLiveEvent<String> getOpenQvikieEvent() {
-        return openQvikieEvent;
-    }
-
-    /**
-     * Sets the current qvikie filtering type.
-     *
-     * @param requestType Can be {@link QvikiesFilterType#ALL_QVIKIES},
-     *                    {@link QvikiesFilterType#ENGINEERS}, or
-     *                    {@link QvikiesFilterType#DESIGNERS}
-     */
-    public void setFiltering(QvikiesFilterType requestType) {
-        currentFiltering = requestType;
-
-        // Depending on the filter type, set the filtering label, icon drawables, etc.
-        switch (requestType) {
-            case ALL_QVIKIES:
-                currentFilteringLabel.set(context.getString(R.string.label_all));
-                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_all));
-                break;
-            case ENGINEERS:
-                currentFilteringLabel.set(context.getString(R.string.label_engineers));
-                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_engineers));
-                break;
-            case DESIGNERS:
-                currentFilteringLabel.set(context.getString(R.string.label_designers));
-                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_designers));
-                break;
-        }
     }
 
     /**
@@ -144,5 +143,40 @@ public class QvikiesViewModel extends AndroidViewModel {
                 isDataLoadingError.set(true);
             }
         });
+    }
+
+    SingleLiveEvent<String> getOpenQvikieEvent() {
+        return openQvikieEvent;
+    }
+
+    SingleLiveEvent<Void> getNewQvikieEvent() {
+        return newQvikieEvent;
+    }
+
+    /**
+     * Sets the current qvikie filtering type.
+     *
+     * @param requestType Can be {@link QvikiesFilterType#ALL_QVIKIES},
+     *                    {@link QvikiesFilterType#ENGINEERS}, or
+     *                    {@link QvikiesFilterType#DESIGNERS}
+     */
+    public void setFiltering(QvikiesFilterType requestType) {
+        currentFiltering = requestType;
+
+        // Depending on the filter type, set the filtering label, icon drawables, etc.
+        switch (requestType) {
+            case ALL_QVIKIES:
+                currentFilteringLabel.set(context.getString(R.string.label_all));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_all));
+                break;
+            case ENGINEERS:
+                currentFilteringLabel.set(context.getString(R.string.label_engineers));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_engineers));
+                break;
+            case DESIGNERS:
+                currentFilteringLabel.set(context.getString(R.string.label_designers));
+                noQvikiesLabel.set(context.getResources().getString(R.string.no_qvikies_designers));
+                break;
+        }
     }
 }
