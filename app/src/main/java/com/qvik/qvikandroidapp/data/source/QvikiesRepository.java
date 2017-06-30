@@ -13,16 +13,14 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// TODO Improve the synchronisation between locally persisted data and data obtained from the server
+
 /**
  * Concrete implementation to load qvikies from the data sources into a cache.
- * <p>
- * For simplicity, this implements a dumb synchronisation between locally persisted data and data
- * obtained from the server, by using the remote data source only if the local database doesn't
- * exist or is empty.
  */
 public class QvikiesRepository implements QvikiesDataSource {
 
-    private static QvikiesRepository INSTANCE = null;
+    private static QvikiesRepository instance = null;
 
     private final QvikiesDataSource qvikiesRemoteDataSource;
 
@@ -42,8 +40,10 @@ public class QvikiesRepository implements QvikiesDataSource {
     // Prevent direct instantiation.
     private QvikiesRepository(@NonNull QvikiesDataSource qvikiesRemoteDataSource,
                             @NonNull QvikiesDataSource qvikiesLocalDataSource) {
-        this.qvikiesRemoteDataSource = checkNotNull(qvikiesRemoteDataSource);
-        this.qvikiesLocalDataSource = checkNotNull(qvikiesLocalDataSource);
+        //noinspection ResultOfMethodCallIgnored
+        this.qvikiesRemoteDataSource = checkNotNull(qvikiesRemoteDataSource, "qvikiesRemoteDataSource == null");
+        //noinspection ResultOfMethodCallIgnored
+        this.qvikiesLocalDataSource = checkNotNull(qvikiesLocalDataSource, "qvikiesLocalDataSource == null");
     }
 
     /**
@@ -55,18 +55,18 @@ public class QvikiesRepository implements QvikiesDataSource {
      */
     public static QvikiesRepository getInstance(QvikiesDataSource qvikiesRemoteDataSource,
                                                 QvikiesDataSource qvikiesLocalDataSource) {
-        if (INSTANCE == null) {
-            INSTANCE = new QvikiesRepository(qvikiesRemoteDataSource, qvikiesLocalDataSource);
+        if (instance == null) {
+            instance = new QvikiesRepository(qvikiesRemoteDataSource, qvikiesLocalDataSource);
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
      * Used to force {@link #getInstance(QvikiesDataSource, QvikiesDataSource)} to create a new instance
      * next time it's called.
      */
-    public static void destroyInstance() {
-        INSTANCE = null;
+    static void destroyInstance() {
+        instance = null;
     }
 
     /**
@@ -78,7 +78,8 @@ public class QvikiesRepository implements QvikiesDataSource {
      */
     @Override
     public void getQvikies(@NonNull final LoadQvikiesCallback callback) {
-        checkNotNull(callback);
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(callback, "callback == null");
 
         // Respond immediately with cache if available and not dirty
         if (cachedQvikies != null && !cacheIsDirty) {
@@ -120,8 +121,10 @@ public class QvikiesRepository implements QvikiesDataSource {
      */
     @Override
     public void getQvikie(@NonNull final String qvikieId, @NonNull final GetQvikieCallback callback) {
-        checkNotNull(qvikieId);
-        checkNotNull(callback);
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(qvikieId, "qvikieId == null");
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(callback, "callback == null");
 
         Qvikie cachedQvikie = getQvikieWithId(qvikieId);
 
@@ -184,7 +187,9 @@ public class QvikiesRepository implements QvikiesDataSource {
 
     @Override
     public void saveQvikie(@NonNull Qvikie qvikie) {
-        checkNotNull(qvikie);
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(qvikie, "qvikie == null");
+
         qvikiesRemoteDataSource.saveQvikie(qvikie);
         qvikiesLocalDataSource.saveQvikie(qvikie);
 
@@ -213,8 +218,11 @@ public class QvikiesRepository implements QvikiesDataSource {
 
     @Override
     public void deleteQvikie(@NonNull String qvikieId) {
-        qvikiesRemoteDataSource.deleteQvikie(checkNotNull(qvikieId));
-        qvikiesLocalDataSource.deleteQvikie(checkNotNull(qvikieId));
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(qvikieId, "qvikieId == null");
+
+        qvikiesRemoteDataSource.deleteQvikie(qvikieId);
+        qvikiesLocalDataSource.deleteQvikie(qvikieId);
 
         cachedQvikies.remove(qvikieId);
     }
@@ -259,12 +267,14 @@ public class QvikiesRepository implements QvikiesDataSource {
     }
 
     @Nullable
-    private Qvikie getQvikieWithId(@NonNull String id) {
-        checkNotNull(id);
+    private Qvikie getQvikieWithId(@NonNull String qvikieId) {
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(qvikieId, "qvikieId == null");
+
         if (cachedQvikies == null || cachedQvikies.isEmpty()) {
             return null;
         } else {
-            return cachedQvikies.get(id);
+            return cachedQvikies.get(qvikieId);
         }
     }
 }

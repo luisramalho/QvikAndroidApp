@@ -30,7 +30,8 @@ public class QvikiesLocalDataSource implements QvikiesDataSource {
 
     // Prevents instantiation
     private QvikiesLocalDataSource(@NonNull Context context) {
-        checkNotNull(context);
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(context, "context == null");
         realm = Realm.getDefaultInstance();
     }
 
