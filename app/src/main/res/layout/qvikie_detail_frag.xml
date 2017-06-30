@@ -5,7 +5,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailViewModel" />
     </data>
 
@@ -26,7 +26,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.dataAvailable ? View.GONE : View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,13 +43,13 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewModel.dataAvailable ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/qvikie_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.qvikie.name}"
+                android:text="@{viewModel.qvikie.name}"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_below="@id/qvikie_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.qvikie.title}"
+                android:text="@{viewModel.qvikie.title}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:layout_below="@id/qvikie_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.qvikie.email}"
+                android:text="@{viewModel.qvikie.email}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_below="@id/qvikie_detail_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.qvikie.phoneNumber}"
+                android:text="@{viewModel.qvikie.phoneNumber}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </RelativeLayout>
