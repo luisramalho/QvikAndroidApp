@@ -61,8 +61,16 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/qvikie_detail_email"
+                android:id="@+id/qvikie_detail_description"
                 android:layout_below="@id/qvikie_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.qvikie.description}"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/qvikie_detail_email"
+                android:layout_below="@id/qvikie_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.qvikie.email}"
