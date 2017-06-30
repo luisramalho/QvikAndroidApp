@@ -19,12 +19,14 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,6 +41,8 @@ public class QvikiesViewModelTest {
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
     private static List<Qvikie> QVIKIES;
+
+    private static List<Qvikie> EMPTY;
 
     @Mock
     private QvikiesRepository qvikiesRepository;
@@ -68,6 +72,8 @@ public class QvikiesViewModelTest {
                 new Qvikie("Name2", "engineer", "Description2", "00000002", "email2@email.com"),
                 new Qvikie("Name3", "designer", "Description3", "00000003", "email3@email.com")
         );
+
+        EMPTY = new ArrayList<>();
     }
 
     private void setupContext() {
@@ -135,6 +141,52 @@ public class QvikiesViewModelTest {
         // And data loaded
         assertFalse(qvikiesViewModel.items.isEmpty());
         assertTrue(qvikiesViewModel.items.size() == 1);
+    }
+
+    @Test
+    public void loadAllQvikiesFromRepositoryAndDeleteAll() {
+        // Given an initialized QvikiesViewModel with initialized qvikies
+        // When loading of Qvikies is requested
+        qvikiesViewModel.setFiltering(QvikiesFilterType.ALL_QVIKIES);
+        qvikiesViewModel.loadQvikies(true);
+
+        // Callback is captured and invoked with stubbed qvikies
+        verify(qvikiesRepository).getQvikies(loadQvikiesCallbackCaptor.capture());
+
+        // Then progress indicator is shown
+        assertTrue(qvikiesViewModel.dataLoading.get());
+        loadQvikiesCallbackCaptor.getValue().onQvikiesLoaded(QVIKIES);
+
+        // Then progress indicator is hidden
+        assertFalse(qvikiesViewModel.dataLoading.get());
+
+        // And data loaded
+        assertFalse(qvikiesViewModel.items.isEmpty());
+        assertTrue(qvikiesViewModel.items.size() == 3);
+
+        // When the deletion of qvikies is requested
+        qvikiesViewModel.deleteAllQvikies();
+
+        // Then progress indicator is shown
+        assertTrue(qvikiesViewModel.dataLoading.get());
+        loadQvikiesCallbackCaptor.getValue().onQvikiesLoaded(EMPTY);
+
+        // Then progress indicator is hidden
+        assertFalse(qvikiesViewModel.dataLoading.get());
+
+        // And all qvikies are deleted
+        assertTrue(qvikiesViewModel.items.isEmpty());
+        assertFalse(qvikiesViewModel.items.size() == 3);
+    }
+
+    @Test
+    public void clickOnDeleteAllQvikies_DeletesQvikies() {
+        // When all qvikies are deleted
+        qvikiesViewModel.deleteAllQvikies();
+
+        // Then repository is called and the view is notified
+        verify(qvikiesRepository).deleteAllQvikies();
+        verify(qvikiesRepository).getQvikies(any(LoadQvikiesCallback.class));
     }
 
     @Test
