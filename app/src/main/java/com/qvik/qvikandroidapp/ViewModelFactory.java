@@ -9,6 +9,7 @@ import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieViewModel;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailViewModel;
 import com.qvik.qvikandroidapp.qvikies.QvikiesViewModel;
+import com.qvik.qvikandroidapp.statistics.StatisticsViewModel;
 
 /**
  * A creator is used to inject the product ID into the ViewModel
@@ -55,6 +56,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (modelClass.isAssignableFrom(QvikiesViewModel.class)) {
             //noinspection unchecked
             return (T) new QvikiesViewModel(application, qvikiesRepository);
+        } else if (modelClass.isAssignableFrom(StatisticsViewModel.class)) {
+            //noinspection unchecked
+            return (T) new StatisticsViewModel(application, qvikiesRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " +
                 modelClass.getName());
