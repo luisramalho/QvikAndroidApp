@@ -49,4 +49,12 @@
     <string name="description_hint">Description</string>
     <string name="email_hint">E-mail</string>
     <string name="phone_hint">Phone number</string>
+
+    <!-- Statistics -->
+    <string name="statistics_qvikies">Qvikies: %d</string>
+    <string name="statistics_engineers">Engineers: %d</string>
+    <string name="statistics_designers">Designers: %d</string>
+    <string name="statistics_uncategorized">Uncategorized: %d</string>
+    <string name="statistics_error">Error loading statistics.</string>
+    <string name="statistics_loading">Loading</string>
 </resources>
