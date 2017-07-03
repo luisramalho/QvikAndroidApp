@@ -21,6 +21,7 @@ import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelFactory;
 import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieActivity;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
+import com.qvik.qvikandroidapp.statistics.StatisticsActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
 
 public class QvikiesActivity extends LifecycleAppCompatActivity implements QvikieItemNavigator, QvikiesNavigator {
@@ -141,17 +142,15 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
                                 // Do nothing, we're already on that screen
                                 break;
                             case R.id.statistics_navigation_menu_item:
-//                                Intent intent =
-//                                        new Intent(QvikiesActivity.this, StatisticsActivity.class);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_QVIKIE
-//                                        | Intent.FLAG_ACTIVITY_CLEAR_QVIKIE);
-//                                startActivity(intent);
+                                Intent intent = new Intent(
+                                        QvikiesActivity.this,
+                                        StatisticsActivity.class);
+                                startActivity(intent);
                                 break;
                             default:
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
                         drawerLayout.closeDrawers();
                         return true;
                     }
