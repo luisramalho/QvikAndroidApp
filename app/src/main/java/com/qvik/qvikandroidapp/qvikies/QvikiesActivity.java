@@ -116,6 +116,7 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+            navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
