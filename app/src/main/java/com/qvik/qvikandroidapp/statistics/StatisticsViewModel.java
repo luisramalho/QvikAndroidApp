@@ -64,7 +64,7 @@ public class StatisticsViewModel extends AndroidViewModel {
         loadStatistics();
     }
 
-    public void loadStatistics() {
+    void loadStatistics() {
         dataLoading.set(true);
 
         qvikiesRepository.getQvikies(new QvikiesDataSource.LoadQvikiesCallback() {
