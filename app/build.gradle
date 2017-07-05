@@ -110,7 +110,14 @@ dependencies {
     compile('com.google.code.findbugs:jsr305:2.0.1')
 
     // Firebase
+    compile "com.firebaseui:firebase-ui-auth:$rootProject.firebaseUiAuth"
     compile "com.google.firebase:firebase-database:$rootProject.firebaseDatabase"
+
+    // Required only if Facebook login support is required
+    compile('com.facebook.android:facebook-android-sdk:4.22.1')
+
+    // Required only if Twitter login support is required
+    compile("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true }
 
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     // Because RxAndroid releases are few and far between, it is recommended you also
