@@ -57,13 +57,12 @@ public class AddEditQvikieViewModelTest {
     @Test
     public void saveNewQvikieToRepository_showsSuccessMessageUi() {
         // When the ViewModel is asked to save a qvikie
-        addEditQvikieViewModel.saveQvikie(
-                "Name",
-                "engineer",
-                "Description",
-                "0000-0000",
-                "name@qvik.fi"
-        );
+        addEditQvikieViewModel.name.set("Name");
+        addEditQvikieViewModel.title.set("engineer");
+        addEditQvikieViewModel.description.set("Description");
+        addEditQvikieViewModel.phoneNumber.set("0000-0000");
+        addEditQvikieViewModel.email.set("name@qvik.fi");
+        addEditQvikieViewModel.saveQvikie();
 
         // Then a qvikie is saved in the repository and the view updated
         verify(qvikiesRepository).saveQvikie(any(Qvikie.class)); // saved to the model

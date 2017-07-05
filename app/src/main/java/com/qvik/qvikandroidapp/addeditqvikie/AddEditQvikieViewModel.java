@@ -89,16 +89,17 @@ public class AddEditQvikieViewModel extends AndroidViewModel
         dataLoading.set(false);
     }
 
-    void saveQvikie(String name, String title, String description,
-                    String phoneNumber, String email) {
-        Qvikie qvikie = new Qvikie(name, title, description, phoneNumber, email);
+    void saveQvikie() {
+        Qvikie qvikie = new Qvikie(name.get(), title.get(), description.get(),
+                phoneNumber.get(), email.get());
         if (qvikie.isEmpty()) {
             return;
         }
         if (isNewQvikie() || qvikieId == null) {
             createQvikie(qvikie);
         } else {
-            qvikie = new Qvikie(qvikieId, name, title, description, phoneNumber, email);
+            qvikie = new Qvikie(qvikieId, name.get(), title.get(),
+                    description.get(), phoneNumber.get(), email.get());
             updateQvikie(qvikie);
         }
     }

@@ -71,12 +71,7 @@ public class AddEditQvikieFragment extends LifecycleFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.saveQvikie(
-                        viewModel.name.get(),
-                        viewModel.title.get(),
-                        viewModel.description.get(),
-                        viewModel.phoneNumber.get(),
-                        viewModel.email.get());
+                viewModel.saveQvikie();
             }
         });
     }
