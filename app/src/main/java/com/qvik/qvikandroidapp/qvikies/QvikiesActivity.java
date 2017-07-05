@@ -2,6 +2,7 @@ package com.qvik.qvikandroidapp.qvikies;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,10 +17,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.qvik.qvikandroidapp.LifecycleAppCompatActivity;
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelFactory;
 import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieActivity;
+import com.qvik.qvikandroidapp.auth.AuthActivity;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
 import com.qvik.qvikandroidapp.statistics.StatisticsActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
@@ -146,6 +152,19 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
                                         QvikiesActivity.this,
                                         StatisticsActivity.class);
                                 startActivity(intent);
+                                break;
+                            case R.id.sign_out_navigation_menu_item:
+                                AuthUI.getInstance()
+                                        .signOut(QvikiesActivity.this)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                // user is now signed out
+                                                startActivity(new Intent(
+                                                        QvikiesActivity.this,
+                                                        AuthActivity.class));
+                                                finish();
+                                            }
+                                        });
                                 break;
                             default:
                                 break;

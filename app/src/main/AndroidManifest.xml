@@ -12,7 +12,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".qvikies.QvikiesActivity"
+            android:name=".auth.AuthActivity"
             android:theme="@style/AppTheme.OverlapSystemBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".qvikies.QvikiesActivity" />
         <activity android:name=".qvikiedetail.QvikieDetailActivity" />
         <activity android:name=".addeditqvikie.AddEditQvikieActivity" />
         <activity android:name=".statistics.StatisticsActivity" />

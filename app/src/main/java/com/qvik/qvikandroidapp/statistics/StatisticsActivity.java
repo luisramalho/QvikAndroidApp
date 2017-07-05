@@ -14,8 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelFactory;
+import com.qvik.qvikandroidapp.auth.AuthActivity;
 import com.qvik.qvikandroidapp.qvikies.QvikiesActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
 
@@ -80,6 +84,19 @@ public class StatisticsActivity extends AppCompatActivity {
                                         QvikiesActivity.class
                                 );
                                 startActivity(intent);
+                                break;
+                            case R.id.sign_out_navigation_menu_item:
+                                AuthUI.getInstance()
+                                        .signOut(StatisticsActivity.this)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                // user is now signed out
+                                                startActivity(new Intent(
+                                                        StatisticsActivity.this,
+                                                        AuthActivity.class));
+                                                finish();
+                                            }
+                                        });
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 // Do nothing, we're already on that screen
