@@ -9,4 +9,8 @@
         android:id="@+id/statistics_navigation_menu_item"
         android:icon="@drawable/ic_poll_black_24dp"
         android:title="@string/statistics_title" />
+    <item
+        android:id="@+id/sign_out_navigation_menu_item"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/sign_out_title" />
 </menu>

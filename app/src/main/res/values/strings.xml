@@ -25,6 +25,7 @@
     <!-- Drawer -->
     <string name="list_title">Qvikies List</string>
     <string name="statistics_title">Statistics</string>
+    <string name="sign_out_title">Sign out</string>
     <string name="navigation_view_header_title">Qvikies</string>
 
     <!-- Menu -->
