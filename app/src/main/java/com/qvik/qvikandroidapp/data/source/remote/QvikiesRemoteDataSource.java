@@ -98,7 +98,12 @@ public class QvikiesRemoteDataSource implements QvikiesDataSource {
     }
 
     @Override
-    public void deleteQvikie(@NonNull String qvikieId) {
+    public void deleteQvikie(@NonNull Qvikie qvikie) {
+        database.child(QVIKIES).child(qvikie.getId()).removeValue();
+    }
+
+    @Override
+    public void deleteQvikieById(@NonNull String qvikieId) {
         database.child(QVIKIES).child(qvikieId).removeValue();
     }
 }

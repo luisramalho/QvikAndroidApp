@@ -39,7 +39,14 @@ public class QvikieDetailViewModel extends AndroidViewModel implements
      */
     public void deleteQvikie() {
         if (qvikie.get() != null) {
-            qvikiesRepository.deleteQvikie(qvikie.get().getId());
+            qvikiesRepository.deleteQvikie(qvikie.get());
+            deleteQvikieCommand.call();
+        }
+    }
+
+    public void deleteQvikieById() {
+        if (qvikie.get() != null) {
+            qvikiesRepository.deleteQvikieById(qvikie.get().getId());
             deleteQvikieCommand.call();
         }
     }

@@ -35,5 +35,7 @@ public interface QvikiesDataSource {
 
     void deleteAllQvikies();
 
-    void deleteQvikie(@NonNull String qvikieId);
+    void deleteQvikie(@NonNull Qvikie qvikie);
+
+    void deleteQvikieById(@NonNull String qvikieId);
 }

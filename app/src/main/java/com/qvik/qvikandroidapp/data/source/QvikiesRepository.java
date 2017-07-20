@@ -217,12 +217,23 @@ public class QvikiesRepository implements QvikiesDataSource {
     }
 
     @Override
-    public void deleteQvikie(@NonNull String qvikieId) {
+    public void deleteQvikie(@NonNull Qvikie qvikie) {
+        //noinspection ResultOfMethodCallIgnored
+        checkNotNull(qvikie, "qvikie == null");
+
+        qvikiesRemoteDataSource.deleteQvikie(qvikie);
+        qvikiesLocalDataSource.deleteQvikie(qvikie);
+
+        cachedQvikies.remove(qvikie);
+    }
+
+    @Override
+    public void deleteQvikieById(@NonNull String qvikieId) {
         //noinspection ResultOfMethodCallIgnored
         checkNotNull(qvikieId, "qvikieId == null");
 
-        qvikiesRemoteDataSource.deleteQvikie(qvikieId);
-        qvikiesLocalDataSource.deleteQvikie(qvikieId);
+        qvikiesRemoteDataSource.deleteQvikieById(qvikieId);
+        qvikiesLocalDataSource.deleteQvikieById(qvikieId);
 
         cachedQvikies.remove(qvikieId);
     }
