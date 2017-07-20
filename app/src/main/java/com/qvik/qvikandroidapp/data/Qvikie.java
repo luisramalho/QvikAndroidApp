@@ -1,5 +1,8 @@
 package com.qvik.qvikandroidapp.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,35 +13,32 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.UUID;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Model class for a Qvikie.
  */
-@IgnoreExtraProperties
-public class Qvikie extends RealmObject {
+@IgnoreExtraProperties @Entity(tableName = "qvikies")
+public class Qvikie {
 
-    @NonNull @PrimaryKey
-    private String id;
-
-    @Nullable
-    private String name;
+    @PrimaryKey
+    public String id;
 
     @Nullable
-    private String title;
+    public String name;
 
     @Nullable
-    private String description;
+    public String title;
 
     @Nullable
-    private String phoneNumber;
+    public String description;
 
     @Nullable
-    private String email;
+    public String phoneNumber;
+
+    @Nullable
+    public String email;
 
     public Qvikie() {
-        // Firebase requires this empty constructor
+        // Firebase and Room require this empty constructor.
     }
 
     /**
@@ -50,6 +50,7 @@ public class Qvikie extends RealmObject {
      * @param phoneNumber phone number of the qvikie
      * @param email       email of the qvikie
      */
+    @Ignore
     public Qvikie(@Nullable String name, @Nullable String title, @Nullable String description,
                   @Nullable String phoneNumber, @Nullable String email) {
         this(UUID.randomUUID().toString(), name, title, description, phoneNumber, email);
@@ -63,6 +64,7 @@ public class Qvikie extends RealmObject {
      * @param description description of the qvikie
      * @param id          id of the qvikie
      */
+    @Ignore
     public Qvikie(@NonNull String id, @Nullable String name, @Nullable String title,
                   @Nullable String description, @Nullable String phoneNumber,
                   @Nullable String email) {
