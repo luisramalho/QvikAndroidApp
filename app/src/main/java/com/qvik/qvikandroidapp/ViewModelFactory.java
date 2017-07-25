@@ -20,7 +20,7 @@ import com.qvik.qvikandroidapp.statistics.StatisticsViewModel;
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @SuppressLint("StaticFieldLeak")
-    private static volatile ViewModelFactory INSTANCE;
+    private static volatile ViewModelFactory instance;
 
     private final Application application;
 
@@ -28,15 +28,15 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     public static ViewModelFactory getInstance(Application application) {
 
-        if (INSTANCE == null) {
+        if (instance == null) {
             synchronized (ViewModelFactory.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ViewModelFactory(application,
+                if (instance == null) {
+                    instance = new ViewModelFactory(application,
                             Injection.provideQvikiesRepository(application.getApplicationContext()));
                 }
             }
         }
-        return INSTANCE;
+        return instance;
     }
 
     private ViewModelFactory(Application application,
