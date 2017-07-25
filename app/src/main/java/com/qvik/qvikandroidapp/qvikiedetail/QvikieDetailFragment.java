@@ -63,12 +63,12 @@ public class QvikieDetailFragment extends LifecycleFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_delete:
-                viewModel.deleteQvikie();
-                return true;
+        if (item.getItemId() == R.id.menu_delete) {
+            viewModel.deleteQvikie();
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
