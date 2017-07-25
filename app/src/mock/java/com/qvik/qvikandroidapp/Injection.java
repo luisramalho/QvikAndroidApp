@@ -19,6 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class Injection {
 
+    private Injection() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static QvikiesRepository provideQvikiesRepository(@NonNull Context context) {
         checkNotNull(context);
         QvikDatabase database = QvikDatabase.getInstance(context);
