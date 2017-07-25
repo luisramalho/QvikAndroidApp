@@ -111,8 +111,10 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setupNavigationDrawer() {
