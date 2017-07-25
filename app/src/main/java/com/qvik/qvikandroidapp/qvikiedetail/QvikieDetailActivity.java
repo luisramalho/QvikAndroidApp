@@ -99,13 +99,12 @@ public class QvikieDetailActivity extends LifecycleAppCompatActivity implements 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_EDIT_QVIKIE) {
-            // If the qvikie was edited successfully, go back to the list.
-            if (resultCode == ADD_EDIT_RESULT_OK) {
-                // If the result comes from the add/edit screen, it's an edit.
-                setResult(EDIT_RESULT_OK);
-                finish();
-            }
+        // If the qvikie was edited successfully, go back to the list.
+        // If the result comes from the add/edit screen, it's an edit.
+        if (requestCode == REQUEST_EDIT_QVIKIE &&
+                resultCode == ADD_EDIT_RESULT_OK) {
+            setResult(EDIT_RESULT_OK);
+            finish();
         }
     }
 
