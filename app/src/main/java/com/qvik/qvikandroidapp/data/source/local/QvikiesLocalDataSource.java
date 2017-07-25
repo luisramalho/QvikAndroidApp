@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class QvikiesLocalDataSource implements QvikiesDataSource {
 
-    private static QvikiesLocalDataSource INSTANCE;
+    private static QvikiesLocalDataSource instance;
 
     private QvikiesDao qvikiesDao;
 
@@ -29,10 +29,10 @@ public class QvikiesLocalDataSource implements QvikiesDataSource {
 
     public static QvikiesLocalDataSource getInstance(@NonNull AppExecutors appExecutors,
                                                    @NonNull QvikiesDao qvikiesDao) {
-        if (INSTANCE == null) {
-            INSTANCE = new QvikiesLocalDataSource(appExecutors, qvikiesDao);
+        if (instance == null) {
+            instance = new QvikiesLocalDataSource(appExecutors, qvikiesDao);
         }
-        return INSTANCE;
+        return instance;
     }
 
     @Override
@@ -137,6 +137,6 @@ public class QvikiesLocalDataSource implements QvikiesDataSource {
 
     @VisibleForTesting
     static void destroyInstance() {
-        INSTANCE = null;
+        instance = null;
     }
 }
