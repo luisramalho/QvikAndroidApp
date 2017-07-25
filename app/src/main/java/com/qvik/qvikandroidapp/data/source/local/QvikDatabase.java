@@ -14,7 +14,7 @@ import com.qvik.qvikandroidapp.data.QvikiesDao;
 @Database(entities = {Qvikie.class}, version = 1)
 public abstract class QvikDatabase extends RoomDatabase {
 
-    private static QvikDatabase INSTANCE;
+    private static QvikDatabase instance;
 
     public abstract QvikiesDao qvikiesDao();
 
@@ -22,12 +22,12 @@ public abstract class QvikDatabase extends RoomDatabase {
 
     public static QvikDatabase getInstance(Context context) {
         synchronized (lock) {
-            if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+            if (instance == null) {
+                instance = Room.databaseBuilder(context.getApplicationContext(),
                         QvikDatabase.class, "Qvik.db")
                         .build();
             }
-            return INSTANCE;
+            return instance;
         }
     }
 }
