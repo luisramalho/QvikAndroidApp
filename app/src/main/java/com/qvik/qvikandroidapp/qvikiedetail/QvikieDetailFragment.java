@@ -78,7 +78,7 @@ public class QvikieDetailFragment extends LifecycleFragment {
 
     private void setupFab() {
         FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_qvikie);
+                getActivity().findViewById(R.id.fab_edit_qvikie);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

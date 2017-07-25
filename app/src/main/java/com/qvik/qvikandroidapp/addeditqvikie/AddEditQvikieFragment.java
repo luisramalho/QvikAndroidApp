@@ -65,7 +65,7 @@ public class AddEditQvikieFragment extends LifecycleFragment {
     }
 
     private void setupFab() {
-        FloatingActionButton fab = (FloatingActionButton) getActivity()
+        FloatingActionButton fab = getActivity()
                 .findViewById(R.id.fab_edit_qvikie_done);
         fab.setImageResource(R.drawable.ic_done_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
