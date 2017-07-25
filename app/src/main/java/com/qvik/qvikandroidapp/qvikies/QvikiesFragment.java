@@ -27,8 +27,6 @@ public class QvikiesFragment extends LifecycleFragment {
 
     private QvikiesFragBinding qvikiesFragBinding;
 
-    private QvikiesAdapter listAdapter;
-
     public QvikiesFragment() {
         // Empty public constructor required
     }
@@ -115,8 +113,7 @@ public class QvikiesFragment extends LifecycleFragment {
 
     private void setupListAdapter() {
         ListView listView =  qvikiesFragBinding.qvikiesList;
-
-        listAdapter = new QvikiesAdapter(new ArrayList<Qvikie>(0), qvikiesViewModel);
-        listView.setAdapter(listAdapter);
+        listView.setAdapter(
+                new QvikiesAdapter(new ArrayList<Qvikie>(0), qvikiesViewModel));
     }
 }
