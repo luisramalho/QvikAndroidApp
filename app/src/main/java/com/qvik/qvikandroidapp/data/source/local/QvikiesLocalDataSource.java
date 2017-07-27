@@ -17,15 +17,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class QvikiesLocalDataSource implements QvikiesDataSource {
 
-    private static QvikiesLocalDataSource INSTANCE;
+    private static QvikiesLocalDataSource instance;
 
     private Realm realm;
 
     public static QvikiesLocalDataSource getInstance(@NonNull Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new QvikiesLocalDataSource(context);
+        if (instance == null) {
+            instance = new QvikiesLocalDataSource(context);
         }
-        return INSTANCE;
+        return instance;
     }
 
     // Prevents instantiation
