@@ -6,8 +6,6 @@ import io.realm.Realm;
 
 public class App extends Application {
 
-    private static final String TAG = "App";
-
     @Override
     public void onCreate() {
         super.onCreate();
