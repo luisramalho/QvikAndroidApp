@@ -7,6 +7,8 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieViewModel;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
+import com.qvik.qvikandroidapp.notificationdetail.NotificationDetailViewModel;
+import com.qvik.qvikandroidapp.notifications.NotificationsViewModel;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailViewModel;
 import com.qvik.qvikandroidapp.qvikies.QvikiesViewModel;
 import com.qvik.qvikandroidapp.statistics.StatisticsViewModel;
@@ -59,6 +61,12 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (modelClass.isAssignableFrom(StatisticsViewModel.class)) {
             //noinspection unchecked
             return (T) new StatisticsViewModel(application, qvikiesRepository);
+        } else if (modelClass.isAssignableFrom(NotificationsViewModel.class)) {
+            //noinspection unchecked
+            return (T) new NotificationsViewModel(application, qvikiesRepository);
+        } else if (modelClass.isAssignableFrom(NotificationDetailViewModel.class)) {
+            //noinspection unchecked
+            return (T) new NotificationDetailViewModel(application, qvikiesRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " +
                 modelClass.getName());

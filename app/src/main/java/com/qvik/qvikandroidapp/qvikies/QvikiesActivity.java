@@ -24,6 +24,7 @@ import com.qvik.qvikandroidapp.R;
 import com.qvik.qvikandroidapp.ViewModelFactory;
 import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieActivity;
 import com.qvik.qvikandroidapp.auth.AuthActivity;
+import com.qvik.qvikandroidapp.notifications.NotificationsFragment;
 import com.qvik.qvikandroidapp.qvikiedetail.QvikieDetailActivity;
 import com.qvik.qvikandroidapp.statistics.StatisticsActivity;
 import com.qvik.qvikandroidapp.util.ActivityUtils;
@@ -41,13 +42,20 @@ public class QvikiesActivity extends LifecycleAppCompatActivity implements Qviki
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    Toast.makeText(QvikiesActivity.this, getString(R.string.title_home), Toast.LENGTH_SHORT).show();
+                    QvikiesFragment qvikiesFragment = QvikiesFragment.newInstance();
+                    ActivityUtils.replaceFragmentInActivity(
+                            getSupportFragmentManager(),
+                            qvikiesFragment, R.id.contentFrame);
                     return true;
                 case R.id.navigation_dashboard:
                     Toast.makeText(QvikiesActivity.this, getString(R.string.title_dashboard), Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_notifications:
-                    Toast.makeText(QvikiesActivity.this, getString(R.string.title_notifications), Toast.LENGTH_SHORT).show();
+                    NotificationsFragment notificationsFragment =
+                            NotificationsFragment.newInstance();
+                    ActivityUtils.replaceFragmentInActivity(
+                            getSupportFragmentManager(), notificationsFragment,
+                            R.id.contentFrame);
                     return true;
             }
             return false;

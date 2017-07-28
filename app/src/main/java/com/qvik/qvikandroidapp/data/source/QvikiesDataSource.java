@@ -2,6 +2,7 @@ package com.qvik.qvikandroidapp.data.source;
 
 import android.support.annotation.NonNull;
 
+import com.qvik.qvikandroidapp.data.Notification;
 import com.qvik.qvikandroidapp.data.Qvikie;
 
 import java.util.List;
@@ -21,6 +22,20 @@ public interface QvikiesDataSource {
     interface GetQvikieCallback {
 
         void onQvikieLoaded(Qvikie qvikie);
+
+        void onDataNotAvailable();
+    }
+
+    interface LoadNotificationsCallback {
+
+        void onNotificationsLoaded(List<Notification> notifications);
+
+        void onDataNotAvailable();
+    }
+
+    interface GetNotificationCallback {
+
+        void onNotificationLoaded(Notification notification);
 
         void onDataNotAvailable();
     }
