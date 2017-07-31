@@ -46,16 +46,15 @@
             android:visibility="@{viewModel.dataAvailable ? View.VISIBLE : View.GONE}">
 
             <TextView
-                android:id="@+id/qvikie_detail_title"
-                android:layout_below="@id/qvikie_detail_name"
+                android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.notification.title}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/qvikie_detail_description"
-                android:layout_below="@id/qvikie_detail_title"
+                android:id="@+id/notification_description"
+                android:layout_below="@id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.notification.description}"
