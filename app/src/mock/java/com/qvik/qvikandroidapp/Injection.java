@@ -11,9 +11,11 @@ import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Enables injection of mock implementations for
- * {@link QvikiesDataSource} at compile time. This is useful for testing, since it allows us to use
- * a fake instance of the class to isolate the dependencies and run a test hermetically.
+ * Enables injection of mock implementations for {@link QvikiesDataSource} and
+ * and {@link NotificationsDataSource} at compile time.
+ *
+ * This is useful for testing, since it allows us to use a fake instance of the
+ * class to isolate the dependencies and run a test hermetically.
  */
 public class Injection {
 
@@ -25,5 +27,13 @@ public class Injection {
         checkNotNull(context);
         return QvikiesRepository.getInstance(FakeQvikiesRemoteDataSource.getInstance(),
                 QvikiesLocalDataSource.getInstance(context));
+    }
+
+    public static NotificationsRepository provideNotificationsRepository(
+            @NonNull Context context) {
+        checkNotNull(context);
+        return NotificationsRepository.getInstance(
+                NotificationsRemoteDataSource.getInstance(),
+                NotificationsLocalDataSource.getInstance(context.getApplicationContext()));
     }
 }
