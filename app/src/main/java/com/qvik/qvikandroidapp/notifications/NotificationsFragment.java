@@ -7,15 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.qvik.qvikandroidapp.R;
+import com.qvik.qvikandroidapp.data.Notification;
 import com.qvik.qvikandroidapp.databinding.NotificationsFragBinding;
+
+import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
     private NotificationsFragBinding notificationsFragBinding;
 
     private NotificationsViewModel notificationsViewModel;
+
+    private NotificationsAdapter listAdapter;
 
     public NotificationsFragment() {
         // Empty public constructor required
@@ -40,9 +46,24 @@ public class NotificationsFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setupListAdapter();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
         notificationsViewModel.start();
+    }
+
+    private void setupListAdapter() {
+        ListView listView =  notificationsFragBinding.notificationsList;
+
+        listAdapter = new NotificationsAdapter(new ArrayList<Notification>(0),
+                notificationsViewModel);
+        listView.setAdapter(listAdapter);
     }
 }
