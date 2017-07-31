@@ -3,6 +3,8 @@ package com.qvik.qvikandroidapp.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.common.base.Strings;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import io.realm.RealmObject;
@@ -44,6 +46,15 @@ public class Notification extends RealmObject {
 
     public void setTitle(@Nullable String title) {
         this.title = title;
+    }
+
+    @Nullable @Exclude
+    public String getTitleForList() {
+        if (!Strings.isNullOrEmpty(title)) {
+            return title;
+        } else {
+            return "Notification #" + id;
+        }
     }
 
     @Nullable
