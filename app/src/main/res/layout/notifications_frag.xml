@@ -26,15 +26,37 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <!-- TODO -->
+            <LinearLayout
+                android:id="@+id/notificationsLL"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
 
-            <TextView
-                android:id="@+id/textView"
+                <ListView
+                    android:id="@+id/notificationsList"
+                    app:items="@{viewModel.items}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/noNotifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:text="Notifications"/>
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/noNotificationsTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="No notifications!"
+                    />
+
+            </LinearLayout>
         </RelativeLayout>
 
     </com.qvik.qvikandroidapp.ScrollChildSwipeRefreshLayout>
