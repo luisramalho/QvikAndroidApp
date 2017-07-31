@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.qvik.qvikandroidapp.addeditqvikie.AddEditQvikieViewModel;
+import com.qvik.qvikandroidapp.data.source.NotificationsRepository;
 import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
 import com.qvik.qvikandroidapp.notificationdetail.NotificationDetailViewModel;
 import com.qvik.qvikandroidapp.notifications.NotificationsViewModel;
@@ -28,13 +29,18 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final QvikiesRepository qvikiesRepository;
 
+    private final NotificationsRepository notificationsRepository;
+
     public static ViewModelFactory getInstance(Application application) {
 
         if (instance == null) {
             synchronized (ViewModelFactory.class) {
                 if (instance == null) {
-                    instance = new ViewModelFactory(application,
-                            Injection.provideQvikiesRepository(application.getApplicationContext()));
+                    instance = new ViewModelFactory(
+                            application,
+                            Injection.provideQvikiesRepository(application.getApplicationContext()),
+                            Injection.provideNotificationsRepository(application.getApplicationContext())
+                    );
                 }
             }
         }
@@ -42,9 +48,11 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     }
 
     private ViewModelFactory(Application application,
-                             QvikiesRepository repository) {
+                             QvikiesRepository qvikiesRepository,
+                             NotificationsRepository notificationsRepository) {
         this.application = application;
-        qvikiesRepository = repository;
+        this.qvikiesRepository = qvikiesRepository;
+        this.notificationsRepository = notificationsRepository;
     }
 
     @Override
@@ -63,10 +71,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new StatisticsViewModel(application, qvikiesRepository);
         } else if (modelClass.isAssignableFrom(NotificationsViewModel.class)) {
             //noinspection unchecked
-            return (T) new NotificationsViewModel(application, qvikiesRepository);
+            return (T) new NotificationsViewModel(application, notificationsRepository);
         } else if (modelClass.isAssignableFrom(NotificationDetailViewModel.class)) {
             //noinspection unchecked
-            return (T) new NotificationDetailViewModel(application, qvikiesRepository);
+            return (T) new NotificationDetailViewModel(application, notificationsRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " +
                 modelClass.getName());
