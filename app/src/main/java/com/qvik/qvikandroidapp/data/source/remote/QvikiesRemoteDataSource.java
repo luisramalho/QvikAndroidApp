@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.qvik.qvikandroidapp.data.Qvikie;
 import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
-import com.qvik.qvikandroidapp.util.EspressoIdlingResource;
 
 import java.util.ArrayList;
 import java.util.List;

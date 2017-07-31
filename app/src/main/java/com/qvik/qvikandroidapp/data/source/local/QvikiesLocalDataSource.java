@@ -12,9 +12,6 @@ import io.realm.RealmResults;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * TODO Concrete implementation of a data source as a db (realm?).
- */
 public class QvikiesLocalDataSource implements QvikiesDataSource {
 
     private static QvikiesLocalDataSource instance;
