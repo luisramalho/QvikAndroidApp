@@ -5,8 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.databinding.ObservableField;
 
 import com.qvik.qvikandroidapp.data.Notification;
-import com.qvik.qvikandroidapp.data.source.QvikiesDataSource;
-import com.qvik.qvikandroidapp.data.source.QvikiesRepository;
+import com.qvik.qvikandroidapp.data.source.NotificationsDataSource;
+import com.qvik.qvikandroidapp.data.source.NotificationsRepository;
 import com.qvik.qvikandroidapp.notifications.NotificationsFragment;
 
 /**
@@ -14,25 +14,26 @@ import com.qvik.qvikandroidapp.notifications.NotificationsFragment;
  * and redirects them to the Fragment's actions listener.
  */
 public class NotificationDetailViewModel extends AndroidViewModel
-        implements QvikiesDataSource.GetNotificationCallback {
+        implements NotificationsDataSource.GetNotificationCallback {
 
     public final ObservableField<Notification> notification = new ObservableField<>();
 
-    private final QvikiesRepository qvikiesRepository;
+    private final NotificationsRepository notificationsRepository;
 
     private boolean isDataLoading;
 
-    public NotificationDetailViewModel(Application context, QvikiesRepository qvikiesRepository) {
+    public NotificationDetailViewModel(
+            Application context,
+            NotificationsRepository notificationsRepository) {
         super(context);
-        this.qvikiesRepository = qvikiesRepository;
+        this.notificationsRepository = notificationsRepository;
     }
 
     public void start(String notificationId) {
         if (notificationId != null) {
             isDataLoading = true;
-//            TODO qvikiesRepository.getNotification(notificationId, this);
+            notificationsRepository.getNotification(notificationId, this);
         }
-
     }
 
     public boolean isDataAvailable() {
