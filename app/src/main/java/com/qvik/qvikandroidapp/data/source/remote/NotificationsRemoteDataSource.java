@@ -92,6 +92,11 @@ public class NotificationsRemoteDataSource implements NotificationsDataSource {
     }
 
     @Override
+    public void deleteAllNotifications() {
+        database.child(NOTIFICATIONS).removeValue();
+    }
+
+    @Override
     public void refreshNotifications() {
         // Not required because the {@link QvikiesRepository} handles the logic
         // of refreshing the notifications from all the available data sources.

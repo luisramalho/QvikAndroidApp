@@ -8,6 +8,7 @@ import com.qvik.qvikandroidapp.data.source.NotificationsDataSource;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -30,7 +31,6 @@ public class NotificationsLocalDataSource implements NotificationsDataSource {
         checkNotNull(context, "context == null");
         realm = Realm.getDefaultInstance();
     }
-
 
     @Override
     public void getNotifications(@NonNull LoadNotificationsCallback callback) {
@@ -64,6 +64,14 @@ public class NotificationsLocalDataSource implements NotificationsDataSource {
                 .equalTo("id", notificationId).findFirst();
         realm.beginTransaction();
         notification.deleteFromRealm();
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void deleteAllNotifications() {
+        RealmResults<Notification> notifications = realm.where(Notification.class).findAll();
+        realm.beginTransaction();
+        notifications.deleteAllFromRealm();
         realm.commitTransaction();
     }
 

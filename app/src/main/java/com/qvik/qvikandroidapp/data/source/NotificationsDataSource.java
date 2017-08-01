@@ -34,5 +34,7 @@ public interface NotificationsDataSource {
 
     void deleteNotification(@NonNull String notificationId);
 
+    void deleteAllNotifications();
+
     void refreshNotifications();
 }
